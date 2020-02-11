@@ -1,0 +1,104 @@
+---
+title: "Functions in R"
+author: "Gayatri Mainkar"
+date: "1/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+t1 <- read.csv("test1.txt")
+t1
+```
+```{r}
+t2 <- read.table("test2.txt", sep = "$", header = TRUE)
+t2
+```
+```{r}
+t3 <- read.table("test3.txt")
+t3
+```
+
+Our first example function:
+```{r}
+add <- function(x, y=1){
+  #Sum the inputs x and y 
+  x + y
+}
+```
+Let's try using this function:
+```{r}
+add(c(1,2,3),c (2,4,5))
+```
+
+```{r}
+x <- c(4,10,3,11)
+```
+
+```{r}
+rescale<-function(x){
+  rng <- range(x, na.rm = TRUE)
+  (x-rng[1])/(rng[2]-rng[1])
+}
+```
+
+```{r}
+rescale(c(1, 2, NA,3, 10))
+```
+```{r}
+library(bio3d)
+s1 <- read.pdb("4AKE")  # kinase with drug
+s2 <- read.pdb("1AKE")  # kinase no drug
+s3 <- read.pdb("1E4Y")  # kinase with drug
+
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s1, chain="A", elety="CA")
+
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+
+plotb3(s1.b, sse=s1.chainA, typ="l", ylab="Bfactor",main = "4AKE")
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor",main = "1AKE")
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor", main = "1E4Y")
+```
+```{r}
+btrend <- function(x){
+  s <- read.pdb(x)
+  s.chainA <- trim.pdb(s, chain="A", elety="CA")
+  s.b <- s.chainA$atom$b
+  plotb3(s.b, sse=s.chainA, typ="l", ylab="Bfactor", main = x)
+}
+
+```
+```{r}
+btrend("4AKE")
+```
+
+
+
+

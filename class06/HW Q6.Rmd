@@ -1,0 +1,47 @@
+---
+title: "Homework Q6"
+author: "Gayatri Mainkar"
+date: "1/30/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The bio3d package needs to be loaded in order to use this function.
+
+```{r}
+library("bio3d")
+```
+
+The below code chunk contains a function that analyzes protein drug interactions by reading in any protein PDB data and outputting a plot of the B-factor trend for the specified protein. Simply input the PDB identifier of the protein to obtain this plot.
+
+Input: a single element character vector containing the four letter PDB identifier for online file access.
+
+Output: Plot with the B-factor trend of the protein.
+
+```{r}
+btrend <- function(x){
+  s <- read.pdb(x) #reads in specified protein
+  s.chainA <- trim.pdb(s, chain="A", elety="CA") #trims protein to subset of its atoms in chain A of type "CA"
+  s.b <- s.chainA$atom$b #assigns vector of b-factors of each atom to variable
+  plotb3(s.b, sse=s.chainA, typ="l", ylab="Bfactor", main = x) #plots the trend of the b-factor
+}
+```
+
+Test Case #1
+```{r}
+btrend("4AKE")
+```
+
+Test Case #2
+```{r}
+btrend("1AKE")
+```
+
+Test Case #3
+```{r}
+btrend("1E4Y")
+```
+

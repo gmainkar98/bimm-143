@@ -1,0 +1,73 @@
+---
+title: "class07"
+author: "Gayatri Mainkar"
+date: "1/28/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Functions are here:
+```{r}
+#Functions
+
+is_both_na <- function(x,y){
+  if (length(x) != length(y)){
+    stop("your inputs aren't the same length")
+  }
+  is.na(x) & is.na(y)
+}
+
+rescale <- function(x, na.rm=TRUE, plot=FALSE, ...) {
+  # Our rescale function from the end of lecture 6
+  if( !is.numeric(x) ) {
+      stop("Input x should be numeric", call.=FALSE)
+  }
+  
+  if(na.rm) {
+    rng <-range(x, na.rm=TRUE)
+  } else {
+    rng <-range(x)
+  }
+
+  answer <- (x - rng[1]) / (rng[2] - rng[1])
+  if(plot) { 
+    plot(answer, ...) 
+  }
+
+  return(answer)
+}
+```
+
+```{r}
+x <- df1$IDs
+y <- df2$IDs
+
+intersect(x,y)
+x %in% y
+x[x %in% y]
+
+y
+y %in% x
+y[y %in% x]
+
+
+
+
+gene_intersect <- function(x, y) {
+  cbind(x[x %in% y], y[y %in% x])
+}
+
+gene_intersect2 <- function(df1, df2) {
+  cbind(df1[df1$IDs %in% df2$IDs, ], 
+        df2[df2$IDs %in% df1$IDs, ], "exp")
+}
+
+gene_intersect2(df1, df2)
+
+gene_intersect4(df1, df2, gene.colname = "IDs")
+```
+
+
